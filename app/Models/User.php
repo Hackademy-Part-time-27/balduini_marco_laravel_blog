@@ -44,4 +44,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public static function search($search)
+    {
+        if($search == '') {
+            return [];
+        }
+        
+        return self::where('name', 'LIKE', "%$search%")
+                    ->orWhere('email', 'LIKE', "%$search%")->get();
+    }
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
+    }
 }
